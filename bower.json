@@ -19,6 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "vue": "^1.0.26"
+    "vue": "^1.0.26",
+    "normalize-css": "^4.2.0",
+    "lodash": "^4.13.1"
   }
 }
