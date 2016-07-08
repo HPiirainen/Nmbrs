@@ -3,9 +3,10 @@ var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	sourcemaps = require('gulp-sourcemaps'),
 	cleancss = require('gulp-clean-css'),
+	uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
 	filter = require('gulp-filter'),
 	debug = require('gulp-debug'),
-	uglify = require('gulp-uglify'),
 	browsersync = require('browser-sync'),
 	bowerfiles = require('main-bower-files');
 	
@@ -21,7 +22,7 @@ gulp.task('serve', ['js', 'sass'], function() {
 			baseDir: 'app'
 		},
 		port: 3200,
-		open: 'local'
+		open: 'local',
 		browser: ['google chrome'],
 	});
 
@@ -32,7 +33,7 @@ gulp.task('serve', ['js', 'sass'], function() {
 gulp.task('sass', function() {
 	return gulp.src('./app/scss/**/*.scss')
 		.pipe(sourcemaps.init())
-		.pipe(sass().on('error', sass.logError)))
+		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
             browsers: ['last 4 versions'],
             cascade: false
@@ -47,7 +48,7 @@ gulp.task('bower', ['bower:js', 'bower:css']);
 gulp.task('bower:js', function() {
 	return gulp.src(bowerfiles())
 		.pipe(filterJS)
-		.pipe(debug({ title: 'js' })
+		.pipe(debug({ title: 'js' }))
 		.pipe(concat('./app/scripts/vendor.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('./'));
@@ -56,8 +57,8 @@ gulp.task('bower:js', function() {
 gulp.task('bower:css', function() {
 	return gulp.src(bowerfiles())
 		.pipe(filterCSS)
-		.pipe(debug({ title: 'css'}))
+		.pipe(debug({ title: 'css' }))
 		.pipe(concat('./app/css/vendor.min.css'))
-		.pipe(cleanCSS())
+		.pipe(cleancss())
 		.pipe(gulp.dest('./'));
 });
