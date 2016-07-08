@@ -17,7 +17,7 @@ var filterJS = filter('**/*.js'),
 	
 gulp.task('default', ['serve']);
 
-gulp.task('serve', ['jade', 'sass', 'js'], function() {
+gulp.task('serve', ['jade', 'sass'], function() {
 	browsersync.init({
 		server: {
 			baseDir: 'app'
@@ -28,7 +28,7 @@ gulp.task('serve', ['jade', 'sass', 'js'], function() {
 	});
 
 	gulp.watch('app/scss/**/*.scss', ['sass']);
-	gulp.watch(['app/*.js'], ['js']);
+	gulp.watch(['app/*.js']).on('change', browsersync.reload);
 	gulp.watch('app/templates/**/*.jade', ['jade']);
 });
 
