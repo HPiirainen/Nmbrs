@@ -1,0 +1,26 @@
+doctype html
+html(lang = 'en')
+  head
+    meta(charset = 'utf-8')
+    meta(name = 'viewport', content='width=device-width, initial-scale=1')
+    title NMBRS
+    link(rel = 'stylesheet', type = 'text/css', href = '//fonts.googleapis.com/css?family=Raleway:400,300,400italic,600,700')
+    link(rel = 'stylesheet', type = 'text/css', href = 'css/vendor.min.css')
+    link(rel = 'stylesheet', type = 'text/css', href = 'css/main.css')
+  body
+    #app
+      include ./partials/header.jade
+      main
+        h1 NMBRS
+        p {{ message }}
+        p
+          a(href = '#') Testing
+        #form-1
+          input(type = 'text', name = 'test', v-model = 'message')
+          button(v-on:click = 'reverseMsg') Reverse
+        #form-2
+          input(type = 'text', name = 'add' v-model = 'newItem', v-on:keyup.enter = 'addItem')
+        ul
+          li(v-for = 'item in items') {{ item.title }}
+            button(v-on:click = 'removeItem($index)') &times;
+      include ./partials/footer.jade
