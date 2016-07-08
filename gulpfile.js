@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+	jade = require('gulp-jade'),
 	sass = require('gulp-sass'),
 	autoprefixer = require('gulp-autoprefixer'),
 	sourcemaps = require('gulp-sourcemaps'),
@@ -7,7 +8,7 @@ var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	filter = require('gulp-filter'),
 	debug = require('gulp-debug'),
-	browsersync = require('browser-sync'),
+	browsersync = require('browser-sync').create(),
 	bowerfiles = require('main-bower-files');
 	
 var filterJS = filter('**/*.js'),
@@ -16,7 +17,7 @@ var filterJS = filter('**/*.js'),
 	
 gulp.task('default', ['serve']);
 
-gulp.task('serve', ['js', 'sass'], function() {
+gulp.task('serve', ['jade', 'sass', 'js'], function() {
 	browsersync.init({
 		server: {
 			baseDir: 'app'
@@ -27,11 +28,12 @@ gulp.task('serve', ['js', 'sass'], function() {
 	});
 
 	gulp.watch('app/scss/**/*.scss', ['sass']);
-// 	gulp.watch(['app/**/*.js'], ['js']);
+	gulp.watch(['app/*.js'], ['js']);
+	gulp.watch('app/templates/**/*.jade', ['jade']);
 });
 
 gulp.task('sass', function() {
-	return gulp.src('./app/scss/**/*.scss')
+	return gulp.src('app/scss/**/*.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
@@ -39,8 +41,21 @@ gulp.task('sass', function() {
             cascade: false
         }))
         .pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest('./app/css'))
-		.pipe(browserSync.stream());
+		.pipe(gulp.dest('app/css'))
+		.pipe(browsersync.stream());
+});
+
+gulp.task('jade', function() {
+	return gulp.src('app/templates/*.jade')
+		.pipe(jade())
+		.pipe(gulp.dest('app/'))
+		.pipe(browsersync.stream());
+});
+
+gulp.task('js', function() {
+	gulp.src('app/*.js')
+		.pipe(gulp.dest('./'))
+		.pipe(browsersync.stream());
 });
 
 gulp.task('bower', ['bower:js', 'bower:css']);
@@ -49,7 +64,7 @@ gulp.task('bower:js', function() {
 	return gulp.src(bowerfiles())
 		.pipe(filterJS)
 		.pipe(debug({ title: 'js' }))
-		.pipe(concat('./app/scripts/vendor.min.js'))
+		.pipe(concat('app/scripts/vendor.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('./'));
 });
@@ -58,7 +73,7 @@ gulp.task('bower:css', function() {
 	return gulp.src(bowerfiles())
 		.pipe(filterCSS)
 		.pipe(debug({ title: 'css' }))
-		.pipe(concat('./app/css/vendor.min.css'))
+		.pipe(concat('app/css/vendor.min.css'))
 		.pipe(cleancss())
 		.pipe(gulp.dest('./'));
 });
