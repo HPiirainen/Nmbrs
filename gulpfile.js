@@ -1,0 +1,63 @@
+var gulp = require('gulp'),
+	sass = require('gulp-sass'),
+	autoprefixer = require('gulp-autoprefixer'),
+	sourcemaps = require('gulp-sourcemaps'),
+	cleancss = require('gulp-clean-css'),
+	filter = require('gulp-filter'),
+	debug = require('gulp-debug'),
+	uglify = require('gulp-uglify'),
+	browsersync = require('browser-sync'),
+	bowerfiles = require('main-bower-files');
+	
+var filterJS = filter('**/*.js'),
+	filterCSS = filter('**/*.css');
+
+	
+gulp.task('default', ['serve']);
+
+gulp.task('serve', ['js', 'sass'], function() {
+	browsersync.init({
+		server: {
+			baseDir: 'app'
+		},
+		port: 3200,
+		open: 'local'
+		browser: ['google chrome'],
+	});
+
+	gulp.watch('app/scss/**/*.scss', ['sass']);
+// 	gulp.watch(['app/**/*.js'], ['js']);
+});
+
+gulp.task('sass', function() {
+	return gulp.src('./app/scss/**/*.scss')
+		.pipe(sourcemaps.init())
+		.pipe(sass().on('error', sass.logError)))
+		.pipe(autoprefixer({
+            browsers: ['last 4 versions'],
+            cascade: false
+        }))
+        .pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest('./app/css'))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('bower', ['bower:js', 'bower:css']);
+
+gulp.task('bower:js', function() {
+	return gulp.src(bowerfiles())
+		.pipe(filterJS)
+		.pipe(debug({ title: 'js' })
+		.pipe(concat('./app/scripts/vendor.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('bower:css', function() {
+	return gulp.src(bowerfiles())
+		.pipe(filterCSS)
+		.pipe(debug({ title: 'css'}))
+		.pipe(concat('./app/css/vendor.min.css'))
+		.pipe(cleanCSS())
+		.pipe(gulp.dest('./'));
+});

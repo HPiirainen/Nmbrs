@@ -1,0 +1,21 @@
+{
+  "name": "nmbrs",
+  "description": "Game project",
+  "main": "index.js",
+  "authors": [
+    "Hermanni Piirainen"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "vue"
+  ],
+  "homepage": "https://github.com/HPiirainen/Nmbrs",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
