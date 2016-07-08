@@ -1,0 +1,51 @@
+body {
+  font: {
+	  family: $base-font-family;
+	  size: $base-font-size;
+  }
+  line-height: $base-line-height;
+  color: $base-text-color;
+}
+
+h1 {
+  font: {
+	size: $h1-size;
+  }
+}
+
+h2 {
+  font: {
+	size: $h2-size;
+  }
+}
+
+a {
+  @extend %transition;
+  
+  font: {
+	weight: 700;
+  }
+  color: $base-link-color;
+  text-decoration: none;
+  
+  &:hover,
+  &:focus {
+	text-decoration: none;
+  }
+  
+  &:hover {
+	color: lighten($base-link-color, $transition-amount);
+  }
+  
+  &:focus {
+	outline: none;
+  }
+}
+
+ul {
+  @extend %listreset;
+}
+
+#app {
+  padding: 0 15px;
+}

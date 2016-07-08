@@ -1,0 +1,9 @@
+%listreset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+%transition {
+  transition: color $transition-duration ease;
+}

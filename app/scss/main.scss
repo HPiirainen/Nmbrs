@@ -1,1 +1,7 @@
-/** SCSS */
+@import "base/variables";
+@import "base/helpers";
+@import "base/mixins";
+
+@import "layout/common";
+@import "layout/header";
+@import "layout/footer";
