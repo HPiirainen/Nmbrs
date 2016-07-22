@@ -28,7 +28,7 @@ gulp.task('serve', ['jade', 'sass'], function() {
 	});
 
 	gulp.watch('app/scss/**/*.scss', ['sass']);
-	gulp.watch(['app/*.js']).on('change', browsersync.reload);
+	gulp.watch(['app/**/*.js']).on('change', browsersync.reload);
 	gulp.watch('app/templates/**/*.jade', ['jade']);
 });
 
