@@ -13,14 +13,15 @@ html(lang = 'en')
       main
         h1 NMBRS
         p {{ message }}
-        p
-          a(href = '#') Testing
-        #form-1
-          input(type = 'text', name = 'test', v-model = 'message')
-          button(v-on:click = 'reverseMsg') Reverse
-        #form-2
-          input(type = 'text', name = 'add' v-model = 'newItem', v-on:keyup.enter = 'addItem')
-        ul
-          li(v-for = 'item in items') {{ item.title }}
-            button(v-on:click = 'removeItem($index)') &times;
+        p {{ allNmbrs }} {{ test }}
+        #game-grid
+          .grid-row(v-for = '(rowIndex, row) in rows')
+            .grid-item(v-for = '(index, item) in row', track-by = '$index')
+              button(v-on:click = 'select(rowIndex, index, item)') {{ item }}
+        results-component(v-bind:selected = 'selectedNmbrs')
+        p {{ sum }}
+        p {{ valuesAreValid ? 'VALID!' : 'INVALID!' }}
+        controls-component
       include ./partials/footer.jade
+        block append scripts
+          script(type = 'text/javascript', src = 'app.js')
