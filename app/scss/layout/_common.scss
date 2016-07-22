@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font: {
 	  family: $base-font-family;
@@ -47,5 +51,49 @@ ul {
 }
 
 #app {
-  padding: 0 15px;
+  max-width: 1024px;
+  padding: 0 30px;
+  float: left;
+}
+
+#game-grid {
+  width: 100%;
+  float: left;
+}
+
+.grid-row {
+  width: 100%;
+  float: left;
+  border-top: $border-style;
+  
+  &:last-child {
+	border-bottom: $border-style;
+  }
+  
+  .grid-item {
+	float: left;
+	width: (100% / 9);
+	text-align: center;
+	border-left: $border-style;
+	
+	&:last-child {
+      border-right: $border-style;
+	}
+	
+	button {
+	  width: 100%;
+	  background: none;
+	  border: none;
+	  outline: none;
+	  padding: 10px;
+	  font: {
+		size: 20px;
+	  }
+	}
+  }
+}
+
+#controls {
+  margin-top: 30px;
+  float: left;
 }
